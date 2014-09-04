@@ -1,0 +1,15 @@
+*~
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
+pkg/
+
+.vagrant
+/cookbooks
+Berksfile.lock
+
+.kitchen/
+.kitchen.local.yml
+
