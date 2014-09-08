@@ -46,7 +46,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           "entries" => {
             "zookeeper" => kafka_addr,
             "kafka" => kafka_addr,
-            "storm" => storm_addr
+            "storm" => storm_addr,
+            "redis" => storm_addr
           }
         },
         "apache_kafka" => {
@@ -71,6 +72,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       chef.add_recipe "git"
       chef.add_recipe "redis::install"
       chef.add_recipe "hosts_setup"
+      chef.add_recipe "redis_setup"
       chef.add_recipe "java"
       chef.add_recipe "chef-sbt"
    
@@ -87,8 +89,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           "entries" => {
             "zookeeper" => kafka_addr,
             "kafka" => kafka_addr,
-            "storm" => storm_addr
+            "storm" => storm_addr,
+            "redis" => storm_addr
           }
+        },
+        "redis_setup" => {
+          "redis_server" => storm_addr
         },
         "sbt" => {
           "version" => "0.13.5",
