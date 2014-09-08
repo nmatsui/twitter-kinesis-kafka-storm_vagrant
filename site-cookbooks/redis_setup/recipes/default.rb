@@ -10,12 +10,14 @@ REDIS_SERVER = node['redis_setup']['redis_server']
 
 REDIS_CONFIG_FILE = "/etc/redis/redis.conf"
 
+KEYWORD = "^bind 127.0.0.1$"
+
 bash "rewite_redis_properties" do
-  only_if { File.exists? "#{REDIS_CONFIG_FILE}" }
+  only_if "grep '#{KEYWORD}' #{REDIS_CONFIG_FILE}"
 
   user "root"
   code <<-EOS
-  sed -i.org -e 's/^bind .*/#&/' #{REDIS_CONFIG_FILE}
+  sed -i.org -e 's/#{KEYWORD}/#&/' #{REDIS_CONFIG_FILE}
   echo 'bind #{REDIS_SERVER}' >> #{REDIS_CONFIG_FILE}
   /etc/init.d/redis-server restart
   EOS
